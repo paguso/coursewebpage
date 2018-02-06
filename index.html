@@ -20,10 +20,10 @@
   		var banner = document.getElementById("banner");  
   		var nav = document.getElementById("nav");  
   		var sep = document.getElementById("headersep");  
-  		if (scroll_pos > 210) {
+  		if (scroll_pos > 190) {
 	  		header.className = "header_fixed";  
 	  		nav.className = "nav_fixed";  
-	  		sep.style.height = "40px";
+	  		sep.style.height = "60px";
   		}
   		else {
 	  		header.className = "header";  
@@ -68,7 +68,7 @@
 
 <body>
 	<div id="header" class="header">
-		<div id="header" class="header_content">
+		<div id="header_content" class="header_content">
 		<p class="header_title">IF689ec - Info Teórica - 2018.1 </p>
 		</div>
 	</div>
@@ -97,8 +97,15 @@
 
 
 
-   <div id="nav" class="nav">
-   Menu
+    <div id="nav" class="nav">
+        <div class="nav_content">
+        <ul>
+            <li><a class="active" href="#about">SOBRE</a></li>
+            <li><a href="#calendar">AGENDA</a></li>        
+            <li><a href="#calendar">TRABALHOS</a></li>        
+            <li><a href="#calendar">INFORMES</a></li>        
+        </ul>
+        </div>        
 	</div>
 
 	<div id="headersep" class="headersep"></div> 
@@ -108,6 +115,7 @@
 		<p></p>		
 				
 		<!-- block-begin -->		
+		<a target="about"></a>
 		<div id="about" class="main_block">
 			<div id="about_header" class="block_header">
 				<a id="displayImg_about" href="javascript:toggle_block('about', 'Sobre o curso');">
@@ -127,14 +135,17 @@
 			
 
 		<!-- block-begin -->		
+		<a target="calendar"></a>
 		<div id="calendar" class="main_block">
 			<div id="calendar_header" class="block_header">
-				<a id="displayImg_calendar" href="javascript:toggle_block('calendar', 'Calendário');">
-				   <img src="images/icn_collapse.png" alt="Show"/> Calendário
+				<a id="displayImg_calendar" href="javascript:toggle_block('calendar', 'Agenda');">
+				   <img src="images/icn_collapse.png" alt="Show"/> Agenda
 				</a>			
  			</div>
 
 			<div id="calendar_content" class="block_body" style="display: block;">
+
+<iframe src="https://calendar.google.com/calendar/embed?showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=cin.ufpe.br_qr1o4o0qmjb0i5te93hfsg9n1o%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FRecife" style="border-width:0; font-size: large;" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
 
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur congue ipsum eget facilisis. Morbi congue et dolor vitae mollis. Aenean enim justo, placerat et rutrum quis, dignissim eu ligula. Ut hendrerit, arcu at consectetur luctus, magna sapien sodales mauris, a semper nisl enim id diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at euismod quam. Donec vitae lectus mi.</p>
 			<p>In sodales ante ut quam ultricies, at fringilla dolor mollis. Integer non nunc quis neque condimentum euismod eu ac nunc. Suspendisse pharetra nibh orci, id euismod eros porttitor id. Suspendisse quis vestibulum massa, quis bibendum est. Pellentesque quis metus pulvinar, laoreet erat mollis, tempus leo. Proin sapien ex, lobortis ac cursus non, lobortis sed mi. Integer vulputate augue lacinia magna lacinia consequat. Morbi rhoncus, quam eu mattis porttitor, mauris tellus tincidunt magna, in dapibus erat mi vitae nulla. Nam malesuada ligula ante. Praesent sem arcu, consequat a suscipit vel, ultrices et mi. Maecenas diam risus, sollicitudin non mattis vel, maximus id arcu. Nullam quam lacus, iaculis et urna vitae, porttitor aliquet nibh. Nam feugiat fermentum velit. Donec rhoncus nec diam nec mollis.</p>
