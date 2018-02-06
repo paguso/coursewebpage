@@ -13,24 +13,41 @@
 	var last_known_scroll_position = 0;
 	var ticking = false;
 
-	function doSomething(scroll_pos) {
-  		// do something with the scroll position
-  		//document.getElementById("status").innerHTML = "Scrolled to "+scroll_pos;
-  		var header = document.getElementById("header");  
+
+
+	function scrollAction(scrollPos) {
+  		var header = document.getElementById("header");    		
   		var banner = document.getElementById("banner");  
   		var nav = document.getElementById("nav");  
-  		var sep = document.getElementById("headersep");  
-  		if (scroll_pos > 190) {
+  		var sep = document.getElementById("headersep");
+
+		var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+
+		// Scroll then fix header + navigation
+  		if (scrollPos >= scrollThreshold) {
 	  		header.className = "header_fixed";  
 	  		nav.className = "nav_fixed";  
-	  		sep.style.height = "60px";
+	  		sep.style.height = nav.offsetHeight;
   		}
   		else {
 	  		header.className = "header";  
 	  		nav.className = "nav";  
 	  		sep.style.height = "0px";
   		}
+  		
+  		// Menu highlight follows scroll position
+		var mainScrollPos = (scrollPos>scrollThreshold)?(scrollPos-scrollThreshold):0;
+		var scrollToElements = document.getElementsByClassName("main_block"); 
+		var currentSection=-1;
+		while (currentSection<scrollToElements.length-1 && 
+		       mainScrollPos>=scrollToElements[currentSection+1].offsetTop)
+		  currentSection++; 	
+		mainScrollPos = (mainScrollPos>=0)?mainScrollPos:0;
+		if (currentSection>=0) 
+				menuSelect(scrollToElements[currentSection].id);
+  		//document.getElementById("status").innerHTML = "thres="+scrollThreshold+" scrollPos = "+scrollPos+" mainScrollPos="+mainScrollPos+" -- cs="+scrollToElements[currentSection].id+" @offsetTop="+scrollToElements[currentSection].offsetTop;
 	}
+
 
 	window.addEventListener('scroll', 
 		function(e) {
@@ -38,7 +55,7 @@
   			if (!ticking) {
     			window.requestAnimationFrame(
     				function() {
-      				doSomething(last_known_scroll_position);
+      				scrollAction(last_known_scroll_position);
       				ticking = false;
     				}	
     			);
@@ -46,22 +63,51 @@
   			ticking = true;
 		}
 	);
-
-
+	
+	
 	/** COLLAPSIBLE CONTENT BLOCKS **/
 	function toggle_block(blockId, header) {
-  		//document.getElementById("status").innerHTML = "TOGGLE "+blockId;
 		var ele = document.getElementById(blockId+"_content");
-    	var imageEle = document.getElementById("displayImg_"+blockId);
+    	var imageEle = document.getElementById(blockId+"_img");
     	if(ele.style.display == "block") {
        	 ele.style.display = "none";
-							imageEle.innerHTML = '<img alt="Show" src="images/icn_expand.png">'+" "+header;
+							imageEle.innerHTML = '<img class="block_icn"  alt="Show" src="images/icn_expand.png">'+header;
     	}
     	else {
       	ele.style.display = "block";
-         imageEle.innerHTML = '<img alt="Hide" src="images/icn_collapse.png">'+" "+header;
+         imageEle.innerHTML = '<img class="block_icn" alt="Hide" src="images/icn_collapse.png">'+header;
     	}
 	}
+	
+
+	/** NAVIGATION MENU **/
+	var lastActiveMenu = 'about';
+	
+	function menuSelect(blockId) {
+		if (blockId == lastActiveMenu) return;
+		var lastMenuItem = document.getElementById(lastActiveMenu+"_menu");	
+		var menuItem = document.getElementById(blockId+"_menu");
+		menuItem.className = 'active';
+		lastMenuItem.className="";
+		lastActiveMenu = blockId;		
+	}
+	
+	function menuClick(blockId) {
+		if (blockId == lastActiveMenu) return;
+		var lastMenuItem = document.getElementById(lastActiveMenu+"_menu");	
+		var menuItem = document.getElementById(blockId+"_menu");
+		menuItem.className = 'active';
+		lastMenuItem.className="";
+		lastActiveMenu = blockId;
+		
+      var header = document.getElementById("header");    		
+  		var banner = document.getElementById("banner");  
+		var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+		var block = document.getElementById(blockId);
+		var scrollPos = block.offsetTop + scrollThreshold;
+		window.scrollTo(window.scrollX,scrollPos);		
+	}
+
 	</script>	
 	
 </head>
@@ -95,18 +141,20 @@
 	</div>
 	<!-- PAGE BANNER END -->
 
-
-
+   
+	 <!-- NAVIGATION MENU -->	
     <div id="nav" class="nav">
         <div class="nav_content">
-        <ul>
-            <li><a class="active" href="#about">SOBRE</a></li>
-            <li><a href="#calendar">AGENDA</a></li>        
-            <li><a href="#calendar">TRABALHOS</a></li>        
-            <li><a href="#calendar">INFORMES</a></li>        
+        <ul id="main_nav">
+            <li><a id="about_menu" class="active" href="javascript:menuClick('about');">SOBRE</a></li>
+            <li><a id="calendar_menu" href="javascript:menuClick('calendar');">AGENDA</a></li>        
+            <li><a id="homework_menu" href="javascript:menuClick('homework');">TRABALHOS</a></li>        
+            <li><a id="news_menu" href="javascript:menuClick('news');">INFORMES</a></li>        
         </ul>
-        </div>        
+        </div>
+        <p id="status" style="color:white;"></p>        
 	</div>
+
 
 	<div id="headersep" class="headersep"></div> 
 
@@ -115,11 +163,10 @@
 		<p></p>		
 				
 		<!-- block-begin -->		
-		<a target="about"></a>
 		<div id="about" class="main_block">
 			<div id="about_header" class="block_header">
-				<a id="displayImg_about" href="javascript:toggle_block('about', 'Sobre o curso');">
-				   <img src="images/icn_collapse.png" alt="Show"/> Sobre o curso
+				<a id="about_img" href="javascript:toggle_block('about', 'Sobre o curso');">
+				   <img class="block_icn" alt="Hide" src="images/icn_collapse.png"/>Sobre o curso
 				</a>			
  			</div>
 
@@ -135,11 +182,10 @@
 			
 
 		<!-- block-begin -->		
-		<a target="calendar"></a>
 		<div id="calendar" class="main_block">
 			<div id="calendar_header" class="block_header">
-				<a id="displayImg_calendar" href="javascript:toggle_block('calendar', 'Agenda');">
-				   <img src="images/icn_collapse.png" alt="Show"/> Agenda
+				<a id="calendar_img" href="javascript:toggle_block('calendar', 'Agenda');">
+				   <img class="block_icn" alt="Hide" src="images/icn_collapse.png"/>Agenda
 				</a>			
  			</div>
 
@@ -156,6 +202,42 @@
 		<!-- block-end -->		
 
 
+		<!-- block-begin -->		
+		<div  id="homework" class="main_block">
+			<div id="homework_header" class="block_header">
+				<a id="homework_img" href="javascript:toggle_block('homework', 'Trabalhos');">
+				   <img class="block_icn" alt="Hide" src="images/icn_collapse.png"/>Trabalhos
+				</a>			
+ 			</div>
+
+			<div id="homework_content" class="block_body" style="display: block;">
+
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur congue ipsum eget facilisis. Morbi congue et dolor vitae mollis. Aenean enim justo, placerat et rutrum quis, dignissim eu ligula. Ut hendrerit, arcu at consectetur luctus, magna sapien sodales mauris, a semper nisl enim id diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at euismod quam. Donec vitae lectus mi.</p>
+			<p>In sodales ante ut quam ultricies, at fringilla dolor mollis. Integer non nunc quis neque condimentum euismod eu ac nunc. Suspendisse pharetra nibh orci, id euismod eros porttitor id. Suspendisse quis vestibulum massa, quis bibendum est. Pellentesque quis metus pulvinar, laoreet erat mollis, tempus leo. Proin sapien ex, lobortis ac cursus non, lobortis sed mi. Integer vulputate augue lacinia magna lacinia consequat. Morbi rhoncus, quam eu mattis porttitor, mauris tellus tincidunt magna, in dapibus erat mi vitae nulla. Nam malesuada ligula ante. Praesent sem arcu, consequat a suscipit vel, ultrices et mi. Maecenas diam risus, sollicitudin non mattis vel, maximus id arcu. Nullam quam lacus, iaculis et urna vitae, porttitor aliquet nibh. Nam feugiat fermentum velit. Donec rhoncus nec diam nec mollis.</p>
+			<p>Morbi auctor dui nec dictum scelerisque. Etiam fermentum in dui nec finibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In vel lacinia tellus. Aenean non metus sit amet ante ultricies ultrices. Praesent vel gravida leo, eget tempor elit. Nunc lobortis odio elit, eu porta eros faucibus sit amet. Quisque convallis vel nibh ac sagittis. Ut finibus, tortor eget fermentum dignissim, ex lorem luctus odio, non laoreet felis sem vitae velit. Mauris sem turpis, rutrum sed lacinia ac, lacinia at lacus. Integer mauris ligula, fringilla pulvinar pulvinar pellentesque, egestas tincidunt erat. Curabitur efficitur enim quam. Quisque feugiat enim sit amet auctor blandit. Sed non sagittis lorem, a sodales quam. </p>
+
+			</div>
+		</div> 
+		<!-- block-end -->		
+
+
+		<!-- block-begin -->		
+		<div  id="news" class="main_block">
+			<div id="news_header" class="block_header">
+				<a id="news_img" href="javascript:toggle_block('news', 'Informes');">
+				   <img class="block_icn" alt="Hide" src="images/icn_collapse.png"/>Informes
+				</a>			
+ 			</div>
+
+			<div id="news_content" class="block_body" style="display: block;">
+
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur congue ipsum eget facilisis. Morbi congue et dolor vitae mollis. Aenean enim justo, placerat et rutrum quis, dignissim eu ligula. Ut hendrerit, arcu at consectetur luctus, magna sapien sodales mauris, a semper nisl enim id diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at euismod quam. Donec vitae lectus mi.</p>
+			<p>In sodales ante ut quam ultricies, at fringilla dolor mollis. Integer non nunc quis neque condimentum euismod eu ac nunc. Suspendisse pharetra nibh orci, id euismod eros porttitor id. Suspendisse quis vestibulum massa, quis bibendum est. Pellentesque quis metus pulvinar, laoreet erat mollis, tempus leo. Proin sapien ex, lobortis ac cursus non, lobortis sed mi. Integer vulputate augue lacinia magna lacinia consequat. Morbi rhoncus, quam eu mattis porttitor, mauris tellus tincidunt magna, in dapibus erat mi vitae nulla. Nam malesuada ligula ante. Praesent sem arcu, consequat a suscipit vel, ultrices et mi. Maecenas diam risus, sollicitudin non mattis vel, maximus id arcu. Nullam quam lacus, iaculis et urna vitae, porttitor aliquet nibh. Nam feugiat fermentum velit. Donec rhoncus nec diam nec mollis.</p>
+			<p>Morbi auctor dui nec dictum scelerisque. Etiam fermentum in dui nec finibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In vel lacinia tellus. Aenean non metus sit amet ante ultricies ultrices. Praesent vel gravida leo, eget tempor elit. Nunc lobortis odio elit, eu porta eros faucibus sit amet. Quisque convallis vel nibh ac sagittis. Ut finibus, tortor eget fermentum dignissim, ex lorem luctus odio, non laoreet felis sem vitae velit. Mauris sem turpis, rutrum sed lacinia ac, lacinia at lacus. Integer mauris ligula, fringilla pulvinar pulvinar pellentesque, egestas tincidunt erat. Curabitur efficitur enim quam. Quisque feugiat enim sit amet auctor blandit. Sed non sagittis lorem, a sodales quam. </p>
+
+			</div>
+		</div> 
+		<!-- block-end -->		
 
 	</div>
 
