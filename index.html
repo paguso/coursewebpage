@@ -1,11 +1,11 @@
 <html>
 <head>
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <link rel="shortcut icon" href="images/favicon.ico">
-  <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="images/pf.ico">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link rel="stylesheet" media="screen and (min-width: 700px) and (orientation:landscape) " href="desktop.css">
+    <link rel="stylesheet" media="screen and (orientation:portrait)" href="desktop.css">
+ 
+ 
   <meta charset="utf-8">
 
   <title>Course name and semester</title>
@@ -96,12 +96,25 @@
         
         function menuClick(blockId) {
                 menuSelect(blockId);
-      var header = document.getElementById("header");                   
+                pageref(blockId);
+                /*
+                var header = document.getElementById("header");                   
                 var banner = document.getElementById("banner");  
                 var scrollThreshold = banner.offsetHeight - header.offsetHeight;
                 var block = document.getElementById(blockId);
                 var scrollPos = block.offsetTop + scrollThreshold;
                 window.scrollTo(window.scrollX,scrollPos);              
+                */        
+        }
+        
+        function pageref(elementId) {
+                var header = document.getElementById("header");                   
+                var banner = document.getElementById("banner");  
+                var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+                var pageTarget = document.getElementById(elementId);
+                if (pageTarget==null) return;
+                var scrollPos = pageTarget.offsetTop + scrollThreshold;
+                window.scrollTo(window.scrollX,scrollPos);                      	
         }
 
   </script>
@@ -122,7 +135,6 @@
             <td>
               <p class="banner_title">IF689ec 2018.1<br>
               Informática Teórica</p>
-
               <p class="banner_subtitle">Eng<sup>a</sup>. da Computação<br>
               CIn - UFPE</p>
             </td>
@@ -148,7 +160,7 @@
       </ul>
     </div>
 
-    <p id="status" style="color:white;"></p>
+    <!--<p id="status" style="color:white;"></p>-->
   </div>
 
   <div id="headersep" class="headersep"></div>
@@ -167,9 +179,9 @@
 
         <ul>
           <li><a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">Paulo Fonseca</a></li>
-        </ul><a id="horario"></a>
-
-        <h1>Horário e sala</h1>
+        </ul>
+        
+        <h1 id="horario">Horário e sala</h1>
 
         <ul>
           <li>Quarta-feira 13h-15h (Sala D005)</li>
@@ -183,7 +195,7 @@
           <li>A definir</li>
         </ul>
 
-        <h1>Ementa</h1><a name="ementa"></a>
+        <h1 id="ementa">Ementa</h1>
 
         <ul>
           <li>PARTE I - Linguagens formais e autômatos:<br>
@@ -224,7 +236,7 @@
 
         <h1>Avaliação</h1>
 
-        <p>Três unidades, cada unidade correspondendo a uma parte da <a href="#ementa">ementa</a>. A média do curso (MC) será calculada como</p>
+        <p>Três unidades, cada unidade correspondendo a uma parte da <a href="javascript:pageref('ementa');">ementa</a>. A média do curso (MC) será calculada como</p>
 
         <p align="center">MC = (M1+M2+M3) / 3</p>
 
@@ -242,10 +254,10 @@
         <h1>Frequência</h1>
 
         <ul>
-          <li>A frequência a pelo menos 75% das aulas e avaliações parciais é <b>obrigatória</b>, respeitados <a href="#horario">o turno e o horário previstos
+          <li>A frequência a pelo menos 75% das aulas e avaliações parciais é <b>obrigatória</b>, respeitados <a href="javascript:pageref('horario')";>o turno e o horário previstos
           para a disciplina</a>. Será realizada chamada.</li>
 
-          <li>A frequência às atividades de monitoria fora do <a href="#horario">horário de aula</a> é recomendada mas <b>não-obrigatória</b>.</li>
+          <li>A frequência às atividades de monitoria fora do horário de aula é recomendada mas <b>não é obrigatória</b>.</li>
         </ul>
       </div>
     </div><!-- block-end --><!-- block-begin -->
@@ -270,6 +282,26 @@
 
       <div id="homework_content" class="block_body" style="display: block;">
         <p>A ser anunciado</p>
+<!--
+  <table border="0" width="100%">
+  <tbody>
+    <tr>
+      <td class="heading">Projeto</td>
+      <td class="heading">Descrição</td>
+      <td class="heading">Entrega</td>
+    </tr>
+    <tr>
+		<td class="light">Projeto 1</td>    
+		<td class="light"></td>    
+		<td class="light">15/10/2017</td>    
+    </tr>
+    <tr>
+		<td class="dark">Projeto 2 </td>    
+		<td class="dark"></td>    
+		<td class="dark">10/12/2017</td>    
+    </tr>
+</table>
+-->
       </div>
     </div><!-- block-end --><!-- block-begin -->
 
@@ -283,10 +315,9 @@
         <p>Inscreva-se já no canal <strong>oficial</strong> de comunicação entre alunos, professores e monitores da disciplina (apenas para alunos matriculados
         com e-mail do CIn)</p>
 
-        <div style="text-align: center; margin-top: 12px;">
-          <a href="https://groups.google.com/a/cin.ufpe.br/d/forum/if689ec-l" target="_blank"><img src="images/google_groups_ec.png" alt=
-          "if689ec-l@cin.ufpe.br"></a>
-        </div>
+        <a href="https://groups.google.com/a/cin.ufpe.br/d/forum/if689ec-l" target="_blank">
+        <img class="display" width="480px" src="images/google_groups_if689ec.png" alt="if689ec-l@cin.ufpe.br">
+        </a>
       
       
       </div><!-- block-end -->
@@ -311,7 +342,7 @@
           </tr>
         </table>
         <hr size="1">
-        ⚠ Sobrepõem-se às informações aqui contidas qualquer comunicado em contrário emitido publicamente em sala de aula pelo professor responsável ou através
+        ⚠ Sobrepõem-se às informações aqui contidas qualquer comunicado diferente emitido publicamente pelo professor responsável em sala de aula ou através
         do grupo de discussão. Quaisquer dúvidas e/ou divergências deverão ser esclarecidas o mais brevemente possível com o professor responsável.
       </div>
     </div>

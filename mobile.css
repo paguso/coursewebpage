@@ -5,7 +5,7 @@ body {
 	padding : 0;
 	background: transparent;
 	font-family: Helvetica, Arial, sans-serif;
-	#font-size: 16pt;
+	font-size: 1.4em;
 }
 
 p {
@@ -49,6 +49,14 @@ h2 {
 	color: #562f32;
 }
 
+img.display {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
 
 table.invisible {
 	border-top-style: none;
@@ -67,9 +75,6 @@ table.invisible {
 	z-index: 0;
 }
 
-
-
-
 .header_fixed {
 	position: fixed;
 	top: 0;
@@ -84,7 +89,7 @@ table.invisible {
 .header_content {
    display: flex;
    align-items: center;
-	max-width: 700px;
+	max-width: 95%;
 	height: 60px;
 	position: relative;
 	margin-top: 0px;
@@ -121,7 +126,7 @@ table.invisible {
 	position: relative;
 	margin: auto;
 	height: 250px;
-	max-width: 700px;
+	max-width: 95%;
 	background-image: url(images/alan_turing.png);
 	background-position: left;
 	background-repeat: no-repeat;
@@ -182,7 +187,7 @@ table.invisible {
 .nav_content {
 	display: flex;
 	align-items: center;
-   max-width: 700px;
+   max-width: 95%;
    margin: auto;
    font-size: 140%;
    color: white;
@@ -237,7 +242,7 @@ table.invisible {
 	margin-bottom: 0px;
 	margin-left: auto;
 	position: relative;
-	max-width: 700px;
+	max-width: 95%;
 }
 
 .main_block {
@@ -301,7 +306,7 @@ table.invisible {
 }
 
 .footer_content {
-	max-width: 700px;
+	max-width: 95%;
 	margin:auto;
 	margin-top: 10px;
 	margin-bottom: 20px;
@@ -321,4 +326,9 @@ table.invisible {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	color: #aaaaaa;
+}
+
+
+img .display {
+    margin: .5em .5rm .5em .5em;
 }
