@@ -1,122 +1,117 @@
 <html>
+
 <head>
-    <link rel="shortcut icon" href="images/pf.ico">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-    <link rel="stylesheet" media="screen and (min-width: 700px) and (orientation:landscape) " href="desktop.css">
-    <link rel="stylesheet" media="screen and (orientation:portrait)" href="desktop.css">
- 
- 
+  <link rel="shortcut icon" href="images/pf.ico">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+
   <meta charset="utf-8">
 
-  <title>Course name and semester</title>
+  <title>IF689ec 2018.1 - Informática Teórica</title>
   <script type="text/javascript">
-
-        /** SCROLL-THEN-FIX HEADER **/
-        var last_known_scroll_position = 0;
-        var ticking = false;
-
+    /** SCROLL-THEN-FIX HEADER **/
+    var last_known_scroll_position = 0;
+    var ticking = false;
 
 
-        function scrollAction(scrollPos) {
-                var header = document.getElementById("header");                 
-                var banner = document.getElementById("banner");  
-                var nav = document.getElementById("nav");  
-                var sep = document.getElementById("headersep");
+    function scrollAction(scrollPos) {
+      var header = document.getElementById("header");
+      var banner = document.getElementById("banner");
+      var nav = document.getElementById("nav");
+      var sep = document.getElementById("headersep");
 
-                var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
 
-                // Scroll then fix header + navigation
-                if (scrollPos >= scrollThreshold) {
-                        header.className = "header_fixed";  
-                        nav.className = "nav_fixed";  
-                        sep.style.height = nav.offsetHeight;
-                }
-                else {
-                        header.className = "header";  
-                        nav.className = "nav";  
-                        sep.style.height = "0px";
-                }
-                
-                // Menu highlight follows scroll position
-                var mainScrollPos = (scrollPos>scrollThreshold)?(scrollPos-scrollThreshold):0;
-                var scrollToElements = document.getElementsByClassName("main_block"); 
-                var currentSection=-1;
-                while (currentSection<scrollToElements.length-1 && 
-                       mainScrollPos>=scrollToElements[currentSection+1].offsetTop)
-                  currentSection++;     
-                mainScrollPos = (mainScrollPos>=0)?mainScrollPos:0;
-                if (currentSection>=0) 
-                                menuSelect(scrollToElements[currentSection].id);
-                //document.getElementById("status").innerHTML = "thres="+scrollThreshold+" scrollPos = "+scrollPos+" mainScrollPos="+mainScrollPos+" -- cs="+scrollToElements[currentSection].id+" @offsetTop="+scrollToElements[currentSection].offsetTop;
+      // Scroll then fix header + navigation
+      if (scrollPos >= scrollThreshold) {
+        header.className = "header_fixed";
+        nav.className = "nav_fixed";
+        sep.style.height = nav.offsetHeight;
+      } else {
+        header.className = "header";
+        nav.className = "nav";
+        sep.style.height = "0px";
+      }
+
+      // Menu highlight follows scroll position
+      var mainScrollPos = (scrollPos > scrollThreshold) ? (scrollPos - scrollThreshold) : 0;
+      var scrollToElements = document.getElementsByClassName("main_block");
+      var currentSection = -1;
+      while (currentSection < scrollToElements.length - 1 &&
+        mainScrollPos >= scrollToElements[currentSection + 1].offsetTop)
+        currentSection++;
+      mainScrollPos = (mainScrollPos >= 0) ? mainScrollPos : 0;
+      if (currentSection >= 0)
+        menuSelect(scrollToElements[currentSection].id);
+      //document.getElementById("status").innerHTML = "thres="+scrollThreshold+" scrollPos = "+scrollPos+" mainScrollPos="+mainScrollPos+" -- cs="+scrollToElements[currentSection].id+" @offsetTop="+scrollToElements[currentSection].offsetTop;
+    }
+
+
+    window.addEventListener('scroll',
+      function (e) {
+        last_known_scroll_position = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(
+            function () {
+              scrollAction(last_known_scroll_position);
+              ticking = false;
+            }
+          );
         }
+        ticking = true;
+      }
+    );
 
 
-        window.addEventListener('scroll', 
-                function(e) {
-                        last_known_scroll_position = window.scrollY;
-                        if (!ticking) {
-                        window.requestAnimationFrame(
-                                function() {
-                                scrollAction(last_known_scroll_position);
-                                ticking = false;
-                                }       
-                        );
-                        }
-                        ticking = true;
-                }
-        );
-        
-        
-        /** COLLAPSIBLE CONTENT BLOCKS **/
-        function toggle_block(blockId, header) {
-                var ele = document.getElementById(blockId+"_content");
-        var imageEle = document.getElementById(blockId+"_img");
-        if(ele.style.display == "block") {
-         ele.style.display = "none";
-                                                        imageEle.innerHTML = '<img class="block_icn"  alt="Show" src="images/icn_expand.png">'+header;
-        }
-        else {
+    /** COLLAPSIBLE CONTENT BLOCKS **/
+    function toggle_block(blockId, header) {
+      var ele = document.getElementById(blockId + "_content");
+      var imageEle = document.getElementById(blockId + "_img");
+      if (ele.style.display == "block") {
+        ele.style.display = "none";
+        imageEle.innerHTML = '<img class="block_icn"  alt="Show" src="images/icn_expand.png">' + header;
+      } else {
         ele.style.display = "block";
-         imageEle.innerHTML = '<img class="block_icn" alt="Hide" src="images/icn_collapse.png">'+header;
-        }
-        }
-        
+        imageEle.innerHTML = '<img class="block_icn" alt="Hide" src="images/icn_collapse.png">' + header;
+      }
+    }
 
-        /** NAVIGATION MENU **/
-        var lastActiveMenu = 'about';
-        
-        function menuSelect(blockId) {
-                if (blockId == lastActiveMenu) return;
-                var lastMenuItem = document.getElementById(lastActiveMenu+"_menu");     
-                var menuItem = document.getElementById(blockId+"_menu");
-                menuItem.className = 'active';
-                lastMenuItem.className="";
-                lastActiveMenu = blockId;               
-        }
-        
-        function menuClick(blockId) {
-                menuSelect(blockId);
-                pageref(blockId);
-                /*
-                var header = document.getElementById("header");                   
-                var banner = document.getElementById("banner");  
-                var scrollThreshold = banner.offsetHeight - header.offsetHeight;
-                var block = document.getElementById(blockId);
-                var scrollPos = block.offsetTop + scrollThreshold;
-                window.scrollTo(window.scrollX,scrollPos);              
-                */        
-        }
-        
-        function pageref(elementId) {
-                var header = document.getElementById("header");                   
-                var banner = document.getElementById("banner");  
-                var scrollThreshold = banner.offsetHeight - header.offsetHeight;
-                var pageTarget = document.getElementById(elementId);
-                if (pageTarget==null) return;
-                var scrollPos = pageTarget.offsetTop + scrollThreshold;
-                window.scrollTo(window.scrollX,scrollPos);                      	
-        }
 
+    /** NAVIGATION MENU **/
+    var lastActiveMenu = 'about';
+
+    function menuSelect(blockId) {
+      if (blockId == lastActiveMenu) return;
+      var lastMenuItem = document.getElementById(lastActiveMenu + "_menu");
+      var menuItem = document.getElementById(blockId + "_menu");
+      menuItem.className = 'active';
+      lastMenuItem.className = "";
+      lastActiveMenu = blockId;
+    }
+
+    function menuClick(blockId) {
+      menuSelect(blockId);
+      pageref(blockId);
+      /*
+      var header = document.getElementById("header");                   
+      var banner = document.getElementById("banner");  
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var block = document.getElementById(blockId);
+      var scrollPos = block.offsetTop + scrollThreshold;
+      window.scrollTo(window.scrollX,scrollPos);              
+      */
+    }
+
+    function pageref(elementId) {
+      var header = document.getElementById("header");
+      var banner = document.getElementById("banner");
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var pageTarget = document.getElementById(elementId);
+      if (pageTarget == null) return;
+      var scrollPos = pageTarget.offsetTop + scrollThreshold;
+      window.scrollTo(window.scrollX, scrollPos);
+    }
   </script>
 </head>
 
@@ -125,62 +120,64 @@
     <div id="header_content" class="header_content">
       <p class="header_title">IF689ec - Info Teórica - 2018.1</p>
     </div>
-  </div><!-- PAGE BANNER  BEGIN -->
+  </div>
 
+  <!-- PAGE BANNER  BEGIN -->
   <div id="banner" class="banner">
     <div class="banner_content">
-      <table class="invisible" cellspacing="0" cellpadding="0" width="100%">
-        <tbody>
-          <tr>
-            <td>
-              <p class="banner_title">IF689ec 2018.1<br>
-              Informática Teórica</p>
-              <p class="banner_subtitle">Eng<sup>a</sup>. da Computação<br>
-              CIn - UFPE</p>
-            </td>
-
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+      <p class="banner_title">IF689ec 2018.1<br>Informática Teórica</p>
+      <p class="banner_subtitle">Eng<sup>a</sup>. da Computação<br>CIn - UFPE</p>
     </div>
-  </div><!-- PAGE BANNER END -->
-  <!-- NAVIGATION MENU -->
+  </div>
+  <!-- PAGE BANNER END -->
 
+  <!-- NAVIGATION MENU -->
   <div id="nav" class="nav">
     <div class="nav_content">
       <ul id="main_nav">
-        <li><a id="about_menu" class="active" href="javascript:menuClick('about');">SOBRE</a></li>
+        <li>
+          <a id="about_menu" class="active" href="javascript:menuClick('about');">SOBRE</a>
+        </li>
 
-        <li><a id="calendar_menu" href="javascript:menuClick('calendar');">AGENDA</a></li>
+        <li>
+          <a id="calendar_menu" href="javascript:menuClick('calendar');">AGENDA</a>
+        </li>
 
-        <li><a id="homework_menu" href="javascript:menuClick('homework');">TRABALHOS</a></li>
+        <li>
+          <a id="homework_menu" href="javascript:menuClick('homework');">TRABALHOS</a>
+        </li>
 
-        <li><a id="news_menu" href="javascript:menuClick('news');">INFORMES</a></li>
+        <li>
+          <a id="news_menu" href="javascript:menuClick('news');">INFORMES</a>
+        </li>
       </ul>
     </div>
-
     <!--<p id="status" style="color:white;"></p>-->
   </div>
 
   <div id="headersep" class="headersep"></div>
 
+
+  <!-- MAIN SECTION -->
   <div id="main" class="main">
+
     <!-- block-begin -->
 
     <div id="about" class="main_block">
       <div id="about_header" class="block_header">
-        <a id="about_img" href="javascript:toggle_block('about',%20'Sobre%20o%20curso');"><img class="block_icn" alt="Hide" src="images/icn_collapse.png">Sobre
-        o curso</a>
+        <a id="about_img" href="javascript:toggle_block('about','Sobre%20o%20curso');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Sobre o curso</a>
       </div>
 
       <div id="about_content" class="block_body" style="display: block;">
         <h1>Professor responsável</h1>
 
         <ul>
-          <li><a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">Paulo Fonseca</a></li>
+          <li>
+            <a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">Paulo Fonseca</a>
+          </li>
         </ul>
-        
+
         <h1 id="horario">Horário e sala</h1>
 
         <ul>
@@ -198,19 +195,20 @@
         <h1 id="ementa">Ementa</h1>
 
         <ul>
-          <li>PARTE I - Linguagens formais e autômatos:<br>
-          Autômatos finitos determinísticos (AFD) / Autômatos finitos não-determinísticos (AFN) / Linguagens regulares (proprieades e operações) / Expressões
-          regulares (ER) / Equivalência AFD&lt;=&gt;AFN&lt;=&gt;ER / Linguagens não-regulares (Lema do bombeamento) / / Gramáticas Livres de Contexto (GLC) /
-          Linguagens Livres de Contexto (proprieades e operações) / Ambiguidade de normalização de GLCs / Autõmatos com Pilha (AP) / Equivalência
-          GLC&lt;=&gt;AP / Linguagens não-livres de contexto (Lema do bombeamento)</li>
+          <li>PARTE I - Linguagens formais e autômatos:
+            <br> Autômatos finitos determinísticos (AFD) / Autômatos finitos não-determinísticos (AFN) / Linguagens regulares
+            (proprieades e operações) / Expressões regulares (ER) / Equivalência AFD&lt;=&gt;AFN&lt;=&gt;ER / Linguagens
+            não-regulares (Lema do bombeamento) / / Gramáticas Livres de Contexto (GLC) / Linguagens Livres de Contexto (proprieades
+            e operações) / Ambiguidade de normalização de GLCs / Autõmatos com Pilha (AP) / Equivalência GLC&lt;=&gt;AP /
+            Linguagens não-livres de contexto (Lema do bombeamento)</li>
 
-          <li>PARTE II - Teoria da Computabilidade:<br>
-          Máquinas de Turing (MT) / Variações das MT / Não-determinismo / Tese de Church-Turing / Linguagens recursivas e recursivamente enumeráveis /
-          Decidibilidade / O Problema da Parada / Teorema de Rice / Redutibilidade.</li>
+          <li>PARTE II - Teoria da Computabilidade:
+            <br> Máquinas de Turing (MT) / Variações das MT / Não-determinismo / Tese de Church-Turing / Linguagens recursivas
+            e recursivamente enumeráveis / Decidibilidade / O Problema da Parada / Teorema de Rice / Redutibilidade.</li>
 
-          <li>PARTE III - Teoria da Complexidade:<br>
-          Complexidade de Tempo / Classes de complexidade / Redução polinomial / P vs. NP / NP-completude / Teorema de Cook-Levin / Complexidade de Espaço /
-          Teorema de Savitch / PSPACE-completude.</li>
+          <li>PARTE III - Teoria da Complexidade:
+            <br> Complexidade de Tempo / Classes de complexidade / Redução polinomial / P vs. NP / NP-completude / Teorema de
+            Cook-Levin / Complexidade de Espaço / Teorema de Savitch / PSPACE-completude.</li>
         </ul>
 
         <h1>Bibliografia</h1>
@@ -218,30 +216,37 @@
         <h2>Básica</h2>
 
         <ol>
-          <li>Michael Sipser. <i>Introdução à Teoria da Computação</i>, Cengage Learning, 2007.</li>
+          <li>Michael Sipser.
+            <i>Introdução à Teoria da Computação</i>, Cengage Learning, 2007.</li>
         </ol>
 
         <h2>Suplementar</h2>
 
         <ol>
-          <li>John E. Hopcroft, Rajeev Motwani &amp; Jeffrey D. Ullman. <i>Introdução à Teoria dos Autômatos, Linguagens e Computação</i>, Ed. Campus,
-          2002</li>
+          <li>John E. Hopcroft, Rajeev Motwani &amp; Jeffrey D. Ullman.
+            <i>Introdução à Teoria dos Autômatos, Linguagens e Computação</i>, Ed. Campus, 2002
+          </li>
 
-          <li>Harry R. Lewis, Christos Papadimitriou. <i>Elements of the Theory of Computation (2nd Ed.)</i>, Prentice-Hall, 1998</li>
+          <li>Harry R. Lewis, Christos Papadimitriou.
+            <i>Elements of the Theory of Computation (2nd Ed.)</i>, Prentice-Hall, 1998</li>
 
-          <li>Dexter Kozen. <i>Automata and Computability</i>, Springer, 1997</li>
+          <li>Dexter Kozen.
+            <i>Automata and Computability</i>, Springer, 1997</li>
 
-          <li>Christos Papadimitriou. <i>Computational Complexity</i>, Addison Wesley, 1994</li>
+          <li>Christos Papadimitriou.
+            <i>Computational Complexity</i>, Addison Wesley, 1994</li>
         </ol>
 
         <h1>Avaliação</h1>
 
-        <p>Três unidades, cada unidade correspondendo a uma parte da <a href="javascript:pageref('ementa');">ementa</a>. A média do curso (MC) será calculada como</p>
+        <p>Três unidades, cada unidade correspondendo a uma parte da
+          <a href="javascript:pageref('ementa');">ementa</a>. A média do curso (MC) será calculada como</p>
 
         <p align="center">MC = (M1+M2+M3) / 3</p>
 
-        <p>A média de cada unidade (M1, M2, M3) será dada por uma prova escrita obrigatória, com nota de 0 a 10, mais atividades extras de monitoria que podem
-        somar até 1 (um) ponto <b>extra</b> à média da unidade.</p>
+        <p>A média de cada unidade (M1, M2, M3) será dada por uma prova escrita obrigatória, com nota de 0 a 10, mais atividades
+          extras de monitoria que podem somar até 1 (um) ponto
+          <b>extra</b> à média da unidade.</p>
 
         <h2>Segunda chamada</h2>
 
@@ -254,35 +259,43 @@
         <h1>Frequência</h1>
 
         <ul>
-          <li>A frequência a pelo menos 75% das aulas e avaliações parciais é <b>obrigatória</b>, respeitados <a href="javascript:pageref('horario')";>o turno e o horário previstos
-          para a disciplina</a>. Será realizada chamada.</li>
+          <li>A frequência a pelo menos 75% das aulas e avaliações parciais é
+            <b>obrigatória</b>, respeitados
+            <a href="javascript:pageref('horario')" ;>o turno e o horário previstos para a disciplina</a>. Será realizada chamada.</li>
 
-          <li>A frequência às atividades de monitoria fora do horário de aula é recomendada mas <b>não é obrigatória</b>.</li>
+          <li>A frequência às atividades de monitoria fora do horário de aula é recomendada mas
+            <b>não é obrigatória</b>.</li>
         </ul>
       </div>
-    </div><!-- block-end --><!-- block-begin -->
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
 
     <div id="calendar" class="main_block">
       <div id="calendar_header" class="block_header">
-        <a id="calendar_img" href="javascript:toggle_block('calendar',%20'Agenda');"><img class="block_icn" alt="Hide" src="images/icn_collapse.png">Agenda</a>
+        <a id="calendar_img" href="javascript:toggle_block('calendar','Agenda');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Agenda</a>
       </div>
 
       <div id="calendar_content" class="block_body" style="display: block;">
-        <iframe src=
-        "https://calendar.google.com/calendar/embed?showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=cin.ufpe.br_qr1o4o0qmjb0i5te93hfsg9n1o%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FRecife"
-        style="border-width:0; font-size: large;" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=cin.ufpe.br_qr1o4o0qmjb0i5te93hfsg9n1o%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FRecife"
+          style="border-width:0; font-size: large;" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
       </div>
-    </div><!-- block-end --><!-- block-begin -->
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
 
     <div id="homework" class="main_block">
       <div id="homework_header" class="block_header">
-        <a id="homework_img" href="javascript:toggle_block('homework',%20'Trabalhos');"><img class="block_icn" alt="Hide" src=
-        "images/icn_collapse.png">Trabalhos</a>
+        <a id="homework_img" href="javascript:toggle_block('homework','Trabalhos');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Trabalhos</a>
       </div>
 
       <div id="homework_content" class="block_body" style="display: block;">
         <p>A ser anunciado</p>
-<!--
+        <!--
   <table border="0" width="100%">
   <tbody>
     <tr>
@@ -303,49 +316,67 @@
 </table>
 -->
       </div>
-    </div><!-- block-end --><!-- block-begin -->
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
 
     <div id="news" class="main_block">
       <div id="news_header" class="block_header">
-        <a id="news_img" href="javascript:toggle_block('news',%20'Informes');"><img class="block_icn" alt="Hide" src="images/icn_collapse.png">Informes</a>
+        <a id="news_img" href="javascript:toggle_block('news',%20'Informes');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Informes</a>
       </div>
 
       <div id="news_content" class="block_body" style="display: block;">
-      
-        <p>Inscreva-se já no canal <strong>oficial</strong> de comunicação entre alunos, professores e monitores da disciplina (apenas para alunos matriculados
-        com e-mail do CIn)</p>
+
+        <p>Inscreva-se já no canal
+          <strong>oficial</strong> de comunicação entre alunos, professores e monitores da disciplina (apenas para alunos matriculados
+          com e-mail do CIn)</p>
 
         <a href="https://groups.google.com/a/cin.ufpe.br/d/forum/if689ec-l" target="_blank">
-        <img class="display" width="480px" src="images/google_groups_if689ec.png" alt="if689ec-l@cin.ufpe.br">
+          <img class="display" width="480px" src="images/google_groups_if689ec.png" alt="if689ec-l@cin.ufpe.br">
         </a>
-      
-      
-      </div><!-- block-end -->
-    </div>
-    
-    </div>
-    <!-- PAGE FOOTER -->
 
-    <div id="footer" class="footer">
-      <div class="footer_content">
-        © 2018 Paulo G.S. Fonseca
-        <hr size="1">
-
-        <table class="invisible" cellpadding="20">
-          <tr>
-            <td><a href="http://www.ufpe.br" target="_blank"><img src="images/marca_ufpe_gray.png" alt="ufpe" height="60"></a></td>
-
-            <td><a href="http://www.cin.ufpe.br" target="_blank"><img src="images/marca_cin_gray.png" alt="cin.ufpe.br" height="50"></a></td>
-
-            <td><a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank"><img src="images/paulo_fonseca_logo_gray.png" alt="paulogsfonseca at cin.ufpe.br"
-            height="32"></a></td>
-          </tr>
-        </table>
-        <hr size="1">
-        ⚠ Sobrepõem-se às informações aqui contidas qualquer comunicado diferente emitido publicamente pelo professor responsável em sala de aula ou através
-        do grupo de discussão. Quaisquer dúvidas e/ou divergências deverão ser esclarecidas o mais brevemente possível com o professor responsável.
       </div>
+      <!-- block-end -->
+    </div>
+
+  </div>
+
+  <!-- PAGE FOOTER -->
+
+  <div id="footer" class="footer">
+    <div class="footer_content">
+      © 2018 Paulo G.S. Fonseca
+      <hr size="1">
+
+      <table class="invisible" cellpadding="20">
+        <tr>
+          <td>
+            <a href="http://www.ufpe.br" target="_blank">
+              <img src="images/marca_ufpe_gray.png" alt="ufpe" height="60">
+            </a>
+          </td>
+
+          <td>
+            <a href="http://www.cin.ufpe.br" target="_blank">
+              <img src="images/marca_cin_gray.png" alt="cin.ufpe.br" height="50">
+            </a>
+          </td>
+
+          <td>
+            <a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">
+              <img src="images/paulo_fonseca_logo_gray.png" alt="paulogsfonseca at cin.ufpe.br" height="32">
+            </a>
+          </td>
+        </tr>
+      </table>
+      <hr size="1"> ⚠ Sobrepõem-se às informações aqui contidas qualquer comunicado diferente emitido publicamente pelo professor responsável
+      em sala de aula ou através do grupo de discussão. Quaisquer dúvidas e/ou divergências deverão ser esclarecidas o mais
+      brevemente possível com o professor responsável.
     </div>
   </div>
+  </div>
 </body>
+
 </html>
