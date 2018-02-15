@@ -3,6 +3,10 @@
 :root {
 	--content-min-width: 700px;
 	--content-max-width: 700px;
+	--header-font-size: 2em;
+	--banner-title-font-size: 3em;
+	--banner-subtitle-font-size: 1.6em;
+	--menu-font-size: 1.2em;
 }
 }
 
@@ -10,6 +14,10 @@
 :root {
 	--content-min-width: 95%;
 	--content-max-width: 95%;
+	--header-font-size: 3em;
+	--banner-title-font-size: 4em;
+	--banner-subtitle-font-size: 2em;
+	--menu-font-size: 1.6em;
 }
 }
 
@@ -152,7 +160,7 @@ td.dark {
 .header_title {
 	margin: 0;
 	color: var(--cin-bordeaux);
-	font-size: 200%;
+	font-size: var(--header-font-size);
 	line-height: 100%;
 	font-weight: bold;
 }
@@ -190,7 +198,7 @@ p.banner_title {
 	margin: auto auto auto 0;
 	width: 100%;
 	color: var(--cin-bordeaux);
-	font-size: 300%;
+	font-size: var(--banner-title-font-size);
 	font-weight: bold;
 	line-height: 100%;
 	text-align: right;
@@ -201,7 +209,7 @@ p.banner_subtitle {
 	margin: auto auto auto 0;
 	width: 100%;
 	color: var(--cin-navy);
-	font-size: 160%;
+	font-size: var(--banner-subtitle-font-size);
 	font-weight: bold;
 	line-height: 140%;
 	text-align: right;
@@ -238,7 +246,7 @@ p.banner_subtitle {
 	align-items: center;
 	max-width: var(--content-max-width);
 	margin: auto;
-	font-size: 140%;
+	font-size: var(--menu-font-size);
 	color: white;
 }
 
@@ -253,7 +261,7 @@ p.banner_subtitle {
 }
 
 .nav_content li {
-	font-size: 1.4em;
+	font-size: var(--menu-font-size);
 	display: table-cell;
 	float: left;
 }
