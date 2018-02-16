@@ -1,0 +1,396 @@
+<html>
+
+<head>
+  <link rel="shortcut icon" href="images/pf.ico">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+
+  <meta charset="utf-8">
+
+  <title>IF672ec 2018.1 - Algoritmos e Estruturas de Dados</title>
+  <script type="text/javascript">
+    /** SCROLL-THEN-FIX HEADER **/
+    var last_known_scroll_position = 0;
+    var ticking = false;
+
+
+    function scrollAction(scrollPos) {
+      var header = document.getElementById("header");
+      var banner = document.getElementById("banner");
+      var nav = document.getElementById("nav");
+      var sep = document.getElementById("headersep");
+
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+
+      // Scroll then fix header + navigation
+      if (scrollPos >= scrollThreshold) {
+        header.className = "header_fixed";
+        nav.className = "nav_fixed";
+        sep.style.height = nav.offsetHeight;
+      } else {
+        header.className = "header";
+        nav.className = "nav";
+        sep.style.height = "0px";
+      }
+
+      // Menu highlight follows scroll position
+      var mainScrollPos = (scrollPos > scrollThreshold) ? (scrollPos - scrollThreshold) : 0;
+      var scrollToElements = document.getElementsByClassName("main_block");
+      var currentSection = -1;
+      while (currentSection < scrollToElements.length - 1 &&
+        mainScrollPos >= scrollToElements[currentSection + 1].offsetTop)
+        currentSection++;
+      mainScrollPos = (mainScrollPos >= 0) ? mainScrollPos : 0;
+      if (currentSection >= 0)
+        menuSelect(scrollToElements[currentSection].id);
+      //document.getElementById("status").innerHTML = "thres="+scrollThreshold+" scrollPos = "+scrollPos+" mainScrollPos="+mainScrollPos+" -- cs="+scrollToElements[currentSection].id+" @offsetTop="+scrollToElements[currentSection].offsetTop;
+    }
+
+
+    window.addEventListener('scroll',
+      function (e) {
+        last_known_scroll_position = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(
+            function () {
+              scrollAction(last_known_scroll_position);
+              ticking = false;
+            }
+          );
+        }
+        ticking = true;
+      }
+    );
+
+
+    /** COLLAPSIBLE CONTENT BLOCKS **/
+    function toggle_block(blockId, header) {
+      var ele = document.getElementById(blockId + "_content");
+      var imageEle = document.getElementById(blockId + "_img");
+      if (ele.style.display == "block") {
+        ele.style.display = "none";
+        imageEle.innerHTML = '<img class="block_icn"  alt="Show" src="images/icn_expand.png">' + header;
+      } else {
+        ele.style.display = "block";
+        imageEle.innerHTML = '<img class="block_icn" alt="Hide" src="images/icn_collapse.png">' + header;
+      }
+    }
+
+
+    /** NAVIGATION MENU **/
+    var lastActiveMenu = 'about';
+
+    function menuSelect(blockId) {
+      if (blockId == lastActiveMenu) return;
+      var lastMenuItem = document.getElementById(lastActiveMenu + "_menu");
+      var menuItem = document.getElementById(blockId + "_menu");
+      menuItem.className = 'active';
+      lastMenuItem.className = "";
+      lastActiveMenu = blockId;
+    }
+
+    function menuClick(blockId) {
+      menuSelect(blockId);
+      pageref(blockId);
+      /*
+      var header = document.getElementById("header");                   
+      var banner = document.getElementById("banner");  
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var block = document.getElementById(blockId);
+      var scrollPos = block.offsetTop + scrollThreshold;
+      window.scrollTo(window.scrollX,scrollPos);              
+      */
+    }
+
+    function pageref(elementId) {
+      var header = document.getElementById("header");
+      var banner = document.getElementById("banner");
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var pageTarget = document.getElementById(elementId);
+      if (pageTarget == null) return;
+      var scrollPos = pageTarget.offsetTop + scrollThreshold;
+      window.scrollTo(window.scrollX, scrollPos);
+    }
+  </script>
+</head>
+
+<body>
+  <div id="header" class="header">
+    <div id="header_content" class="header_content">
+      <p class="header_title">IF672ec - Algoritmos - 2018.1</p>
+    </div>
+  </div>
+
+  <!-- PAGE BANNER  BEGIN -->
+  <div id="banner" class="banner">
+    <div class="banner_content">
+      <p class="banner_title" style="font-size:2.5em">IF672ec 2018.1<br>Algoritmos e<br>Estruturas de Dados</p>
+      <p class="banner_subtitle">Eng<sup>a</sup>. da Computação<br>CIn - UFPE</p>
+    </div>
+  </div>
+  <!-- PAGE BANNER END -->
+
+  <!-- NAVIGATION MENU -->
+  <div id="nav" class="nav">
+    <div class="nav_content">
+      <ul id="main_nav">
+        <li>
+          <a id="about_menu" class="active" href="javascript:menuClick('about');">SOBRE</a>
+        </li>
+
+        <li>
+          <a id="calendar_menu" href="javascript:menuClick('calendar');">AGENDA</a>
+        </li>
+
+        <li>
+          <a id="homework_menu" href="javascript:menuClick('homework');">TRABALHOS</a>
+        </li>
+
+        <li>
+          <a id="news_menu" href="javascript:menuClick('news');">INFORMES</a>
+        </li>
+      </ul>
+    </div>
+    <!--<p id="status" style="color:white;"></p>-->
+  </div>
+
+  <div id="headersep" class="headersep"></div>
+
+
+  <!-- MAIN SECTION -->
+  <div id="main" class="main">
+
+    <!-- block-begin -->
+
+    <div id="about" class="main_block">
+      <div id="about_header" class="block_header">
+        <a id="about_img" href="javascript:toggle_block('about','Sobre%20o%20curso');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Sobre o curso</a>
+      </div>
+
+      <div id="about_content" class="block_body" style="display: block;">
+        <h1>Professor responsável</h1>
+
+        <ul>
+          <li>
+            <a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">Paulo Fonseca</a>
+          </li>
+        </ul>
+
+
+        <h1>Monitores</h1>
+
+        <ul>
+          <li>A definir</li>
+        </ul>
+
+        <h1 id="horario">Horário e sala</h1>
+        <h2>Aulas</h2>
+        <ul>
+          <li>Segunda-feira 13h-15h (Sala D005)</li>
+
+          <li>Quinta-feira 13h-15h (Sala D005)</li>
+        </ul>
+        <h2>Monitoria</h2>
+        <ul>
+          <li>A definir</li>
+        </ul>
+
+        <h1 id="ementa">Ementa</h1>
+
+        <ul>
+          <li>Conceitos básicos de algoritmos e estruturas de dados (ED)</li>
+          <li>Revisão de ED básicas:
+            <ul>
+              <li>ED estáticas (arrays)</li>
+              <li>ED dinâmicas 1-D (listas encadeadas, filas e pilhas)</li>
+            </ul>
+          </li>
+          <li>Introdução à análise de algoritmos e complexidade assintótica</li>
+          <li>Busca e ordenação em ED lineares
+            <ul>
+              <li>busca linear vs. busca binária</li>
+              <li>Mergesort (Dividir para conquistar - D&amp;Q)</li>
+              <li>Quicksort</li>
+            </ul>
+          </li>
+          <li>Tabelas de dispersão (Hash tables)</li>
+          <li>ED dinâmicas N-D: Árvores binárias</li>
+          <li>Busca/ordenação em ED N-D
+            <ul>
+              <li>árvores binárias de busca</li>
+              <li>Heaps e Heapsort</li>
+            </ul>
+          </li>
+          <li>ED para relações de equivalência: union-find</li>
+          <li>Grafos
+            <ul>
+              <li>Grafos dirigidos vs. não-dirigidos</li>
+              <li>Percursos em grafos e aplicações (ordenação topológica, caminhos mais curtos)
+                <li>Grafos ponderados</li>
+                <li>Algoritmos gulosos para problemas de otimização em grafos:
+                  <ul>
+                    <li>Caminhos mínimos com origem comum: Algoritmo de Bellman-Ford, Algoritmo de Dijkstra
+                    </li>
+                    <li>Árvores geradoras mínimas: Algoritmo de Prim, Algoritmo de Kruskal</li>
+                  </ul>
+                </li>
+            </ul>
+            </li>
+            <li>NP-completude
+              <ul>
+                <li>P vs. NP</li>
+                <li>Redução polinomial e NP-completude</li>
+                <li>Heurísticas para problemas NP-C
+                  <ul>
+                    <li>Backtracking</li>
+                    <li>Branch&bound</li>
+                    <li>Programação dinâmica</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+        </ul>
+
+        <h1>Bibliografia</h1>
+        <ol>
+          <li>Anany Levitin.
+            <em>Introduction to the design and analysis of algorithms (3rd ed)</em>. Addison Wesley, 2011.
+          </li>
+          <li>Clifford Shaffer.
+            <em>Data Structures and Algorithm Analysis
+            </em>. Dover Publications, 2013 </li>
+          <li>Sanjoy Dasgupta, Christos Papadimitriou, Umesh Vazirani.
+            <em>Algoritmos</em>. McGraw Hill, 2009 </li>
+          <li>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein.
+            <em>Introduction to Algorithms</em>. MIT Press, 2009. </li>
+        </ol>
+
+        <h1>Avaliação</h1>
+
+        <p>Duas unidades, cada uma composta de
+          <ul>
+            <li>Quatro listas de exercícios práticos de programação (50% da nota da unidade);</li>
+            <li>Uma prova escrita (50% da nota da unidade).</li>
+          </ul>
+
+        <p>Além disso, cada unidade terá atividades de monitoria que podem somar até 1 (um) ponto
+          <b>extra</b> à média da unidade.</p>
+
+        <h2>Segunda chamada</h2>
+
+        <ul>
+          <li>Sobre todo o conteúdo da disciplina</li>
+
+          <li>Mediante solicitação formal junto à Secretaria de graduação</li>
+        </ul>
+
+        <h1>Frequência</h1>
+
+        <ul>
+          <li>A frequência a pelo menos 75% das aulas e avaliações parciais é
+            <b>obrigatória</b>, respeitados
+            <a href="javascript:pageref('horario')" ;>o turno e o horário previstos para a disciplina</a>. Será realizada chamada.</li>
+
+          <li>A frequência às atividades de monitoria fora do horário de aula é recomendada mas
+            <b>não é obrigatória</b>.</li>
+        </ul>
+      </div>
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
+
+    <div id="calendar" class="main_block">
+      <div id="calendar_header" class="block_header">
+        <a id="calendar_img" href="javascript:toggle_block('calendar','Agenda');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Agenda</a>
+      </div>
+
+      <div id="calendar_content" class="block_body" style="display: block;">
+          <iframe src="https://calendar.google.com/calendar/b/1/embed?showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=cin.ufpe.br_k9453rr3mb8q283plljiqpmg5s%40group.calendar.google.com&amp;color=%238C500B&amp;ctz=America%2FRecife" style="border-width:0" width="700" height="600" frameborder="0" scrolling="no"></iframe>
+
+          <a target="_blank" href="https://calendar.google.com/calendar/b/1?cid=Y2luLnVmcGUuYnJfazk0NTNycjNtYjhxMjgzcGxsamlxcG1nNXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ">
+          <img class="display" src="images/agenda.png">
+        </a>
+
+      </div>
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
+
+    <div id="homework" class="main_block">
+      <div id="homework_header" class="block_header">
+        <a id="homework_img" href="javascript:toggle_block('homework','Trabalhos');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Trabalhos</a>
+      </div>
+
+      <div id="homework_content" class="block_body" style="display: block;">
+        <a target="_blank" href="https://iudex.io/"><img class="display" src="images/sistema.png"></a>
+      </div>
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
+
+    <div id="news" class="main_block">
+      <div id="news_header" class="block_header">
+        <a id="news_img" href="javascript:toggle_block('news',%20'Informes');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Informes</a>
+      </div>
+
+      <div id="news_content" class="block_body" style="display: block;">
+
+        <p>Inscreva-se já no canal
+          <strong>oficial</strong> de comunicação entre alunos, professores e monitores da disciplina (apenas para alunos matriculados
+          com e-mail do CIn)</p>
+
+        <a href="https://groups.google.com/a/cin.ufpe.br/d/forum/if672ec-l" target="_blank">
+          <img class="display" src="images/google_groups_if672ec.png" alt="if672ec-l@cin.ufpe.br">
+        </a>
+
+      </div>
+      <!-- block-end -->
+    </div>
+
+  </div>
+
+  <!-- PAGE FOOTER -->
+
+  <div id="footer" class="footer">
+    <div class="footer_content">
+      © 2018 Paulo G.S. Fonseca
+      <hr size="1">
+
+      <table class="invisible" cellpadding="20">
+        <tr>
+          <td>
+            <a href="http://www.ufpe.br" target="_blank">
+              <img src="images/marca_ufpe_gray.png" alt="ufpe" height="60">
+            </a>
+          </td>
+
+          <td>
+            <a href="http://www.cin.ufpe.br" target="_blank">
+              <img src="images/marca_cin_gray.png" alt="cin.ufpe.br" height="50">
+            </a>
+          </td>
+
+          <td>
+            <a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">
+              <img src="images/paulo_fonseca_logo_gray.png" alt="paulogsfonseca at cin.ufpe.br" height="32">
+            </a>
+          </td>
+        </tr>
+      </table>
+      <hr size="1"> ⚠ Sobrepõem-se às informações aqui contidas qualquer comunicado diferente emitido publicamente pelo professor responsável
+      em sala de aula ou através do grupo de discussão. Quaisquer dúvidas e/ou divergências deverão ser esclarecidas o mais
+      brevemente possível com o professor responsável.
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
