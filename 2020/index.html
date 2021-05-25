@@ -1,0 +1,376 @@
+<html>
+
+<head>
+  <!--link rel="shortcut icon" href="images/omicron.ico"-->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+
+  <meta charset="utf-8">
+
+  <title>IF775 2020.2 - Algoritmos para Streams de Dados</title>
+  <script type="text/javascript">
+    /** SCROLL-THEN-FIX HEADER **/
+    var last_known_scroll_position = 0;
+    var ticking = false;
+
+
+    function scrollAction(scrollPos) {
+      var header = document.getElementById("header");
+      var banner = document.getElementById("banner");
+      var nav = document.getElementById("nav");
+      var sep = document.getElementById("headersep");
+
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+
+      // Scroll then fix header + navigation
+      if (scrollPos >= scrollThreshold) {
+        header.className = "header_fixed";
+        nav.className = "nav_fixed";
+        sep.style.height = nav.offsetHeight;
+      } else {
+        header.className = "header";
+        nav.className = "nav";
+        sep.style.height = "0px";
+      }
+
+      // Menu highlight follows scroll position
+      var mainScrollPos = (scrollPos > scrollThreshold) ? (scrollPos - scrollThreshold) : 0;
+      var scrollToElements = document.getElementsByClassName("main_block");
+      var currentSection = -1;
+      while (currentSection < scrollToElements.length - 1 &&
+        mainScrollPos >= scrollToElements[currentSection + 1].offsetTop)
+        currentSection++;
+      mainScrollPos = (mainScrollPos >= 0) ? mainScrollPos : 0;
+      if (currentSection >= 0)
+        menuSelect(scrollToElements[currentSection].id);
+      //document.getElementById("status").innerHTML = "thres="+scrollThreshold+" scrollPos = "+scrollPos+" mainScrollPos="+mainScrollPos+" -- cs="+scrollToElements[currentSection].id+" @offsetTop="+scrollToElements[currentSection].offsetTop;
+    }
+
+
+    window.addEventListener('scroll',
+      function (e) {
+        last_known_scroll_position = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(
+            function () {
+              scrollAction(last_known_scroll_position);
+              ticking = false;
+            }
+          );
+        }
+        ticking = true;
+      }
+    );
+
+
+    /** COLLAPSIBLE CONTENT BLOCKS **/
+    function toggle_block(blockId, header) {
+      var ele = document.getElementById(blockId + "_content");
+      var imageEle = document.getElementById(blockId + "_img");
+      if (ele.style.display == "block") {
+        ele.style.display = "none";
+        imageEle.innerHTML = '<img class="block_icn"  alt="Show" src="images/icn_expand.png">' + header;
+      } else {
+        ele.style.display = "block";
+        imageEle.innerHTML = '<img class="block_icn" alt="Hide" src="images/icn_collapse.png">' + header;
+      }
+    }
+
+
+    /** NAVIGATION MENU **/
+    var lastActiveMenu = 'about';
+
+    function menuSelect(blockId) {
+      if (blockId == lastActiveMenu) return;
+      var lastMenuItem = document.getElementById(lastActiveMenu + "_menu");
+      var menuItem = document.getElementById(blockId + "_menu");
+      menuItem.className = 'active';
+      lastMenuItem.className = "";
+      lastActiveMenu = blockId;
+    }
+
+    function menuClick(blockId) {
+      menuSelect(blockId);
+      pageref(blockId);
+      /*
+      var header = document.getElementById("header");                   
+      var banner = document.getElementById("banner");  
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var block = document.getElementById(blockId);
+      var scrollPos = block.offsetTop + scrollThreshold;
+      window.scrollTo(window.scrollX,scrollPos);              
+      */
+    }
+
+    function pageref(elementId) {
+      var header = document.getElementById("header");
+      var banner = document.getElementById("banner");
+      var scrollThreshold = banner.offsetHeight - header.offsetHeight;
+      var pageTarget = document.getElementById(elementId);
+      if (pageTarget == null) return;
+      var scrollPos = pageTarget.offsetTop + scrollThreshold;
+      window.scrollTo(window.scrollX, scrollPos);
+    }
+  </script>
+</head>
+
+<body>
+  <div id="header" class="header">
+    <div id="header_content" class="header_content">
+      <p class="header_title">IF775 - Algoritmos para <i>Streams</i> - 2020.2</p>
+    </div>
+  </div>
+
+  <!-- PAGE BANNER  BEGIN -->
+  <div id="banner" class="banner">
+    <div class="banner_content">
+      <p class="banner_title" style="font-size:2.5em">IF775 2020.2<br>Algoritmos para<br><i>Streams</i> de Dados</p>
+      <!--<p class="banner_subtitle">Eng<sup>a</sup>. da Computação<br>CIn - UFPE</p-->
+      <p class="banner_subtitle"><img src="./images/marca_cin_200.png"></p>
+    </div>
+  </div>
+  <!-- PAGE BANNER END -->
+
+  <!-- NAVIGATION MENU -->
+  <div id="nav" class="nav">
+    <div class="nav_content">
+      <ul id="main_nav">
+        <li>
+          <a id="about_menu" class="active" href="javascript:menuClick('about');">SOBRE</a>
+        </li>
+
+        <li>
+          <a id="calendar_menu" href="javascript:menuClick('calendar');">AGENDA</a>
+        </li>
+
+        <li>
+          <a id="homework_menu" href="javascript:menuClick('homework');">TRABALHOS</a>
+        </li>
+
+        <li>
+          <a id="classroom_menu" href="javascript:menuClick('classroom');">CLASSROOM</a>
+        </li>
+      </ul>
+    </div>
+    <!--<p id="status" style="color:white;"></p>-->
+  </div>
+
+  <div id="headersep" class="headersep"></div>
+
+
+  <!-- MAIN SECTION -->
+  <div id="main" class="main">
+
+    <!-- block-begin -->
+
+    <div id="about" class="main_block">
+      <div id="about_header" class="block_header">
+        <a id="about_img" href="javascript:toggle_block('about','Sobre%20o%20curso');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Sobre o curso</a>
+      </div>
+
+      <div id="about_content" class="block_body" style="display: block;">
+
+        <h1>Ementa</h1>
+
+      <p>Algoritmos e estruturas de dados destinados ao processamento de grandes volumes de dados (big data), em
+particular dados coletados em fluxo contínuo (stream), para os quais as técnicas tradicionais baseadas na
+armazenagem dos dados em memória principal não são adequados. Os métodos aqui apresentados
+consistem na construção de sumários e índices dos dados, permitindo consultas aproximadas com garantias
+teóricas de erro, em memória sublinear. Estas técnicas visam a fornecer suporte para análise de dados e
+tomada de decisões em tempo real.</p>
+        
+<h1>Professores responsáveis</h1>
+
+        <ul>
+          <li>
+            <a href="http://www.cin.ufpe.br/%7Enivan" target="_blank">Nivan Ferreira</a>
+          </li>
+          <li>
+            <a href="http://www.cin.ufpe.br/%7Epaguso" target="_blank">Paulo Fonseca</a>
+          </li>
+        </ul>
+
+
+        <h1>Monitores</h1>
+
+        <ul>
+          <li>A definir</li>
+        </ul>
+
+        <h1 id="horario">Horário e sala</h1>
+        <h2>Aulas</h2>
+        <ul>
+          <li>Terça-feira 13h-15h (<a href="javascript:pageref('classroom');">Meet disponível via Classroom</a>)</li>
+          <li>Sexta-feira 15h-17h (<a href="javascript:pageref('classroom');">Meet disponível via Classroom</a>)</li>
+        </ul>
+        <h2>Monitoria</h2>
+        <ul>
+          <li>A definir</li>
+        </ul>
+
+        <h1 id="ementa">Ementa</h1>
+	
+        <ul>
+          <li>Modelo de Dados Streaming</li>
+          <li>Métodos de Sumarização de Conjuntos:
+            <ul>
+              <li>Contagem Aproximada</li>
+              <li>Algoritmos de Amostragem</li>
+	            <li>Funções de Hash k-Independentes</li>
+              <li>Técnicas para Estimativa de Cardinalidade</li>
+            </ul>
+          </li>
+          <li>Métodos de Sumarização de Multi-conjuntos</li>
+	        <ul>
+              <li>Fingerprint para Teste de Igualdade</li>
+              <li>Sumários para Estimativa de Frequência</li>
+              <li>Sumários para Estimativa da Norma Euclideana</li>
+          </ul>  
+          <li>Métodos de Sumarização para Dados Ordenados 
+            <ul>
+              <li>Q-Digest</li>
+              <li>Greenwald-Khanna (GK)</li>
+              <li>Karnin-Lang-Liberty (KLL)</li>
+            </ul>
+          </li>
+          <li>Métodos Avançados (a definir):</li>
+          <ul>
+          <li>Sumarização de Dados Geométricos</li>
+          <li>Sumários para Problemas de Álgebra Linear</li>
+          <li>Sumarização de Grafos</li>
+          </ul>
+        </ul>
+
+
+        <h1>Bibliografia</h1>
+        <ol>
+
+          <li>Graham Cormode and Ke Yi.
+            <em><a href="http://dimacs.rutgers.edu/~graham/ssbd.html">Small Summaries for Big Data</a></em>, Cambridge University Press, 2020.
+          </li>
+
+	        <li>Amit Chakrabarti.<em>
+	        <a href="https://www.cs.dartmouth.edu/~ac/Teach/data-streams-lecnotes.pdf">Data Stream Algorithms (Lecture Notes)</a></em>, Dartmouth College, 2020.
+	        </li>
+
+          <li>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein.
+            <em>Introduction to Algorithms</em>. MIT Press, 2009. </li>
+        </ol>
+
+        <h1>Avaliação</h1>
+
+        <p><i>A definir</i></p>
+
+
+        <h2>Segunda chamada</h2>
+
+        <ul>
+          <li>Sobre todo o conteúdo da disciplina</li>
+
+          <li>Mediante solicitação formal junto à Secretaria de graduação</li>
+        </ul>
+
+        <h1>Frequência</h1>
+
+        <ul>
+          <li>A frequência a pelo menos 75% das aulas e avaliações parciais é
+            <b>obrigatória</b>, respeitados
+            <a href="javascript:pageref('horario')" ;>o turno e o horário previstos para a disciplina</a>. Será realizada chamada.</li>
+
+          <li>A frequência às atividades de monitoria fora do horário de aula é recomendada mas
+            <b>não é obrigatória</b>.</li>
+        </ul>
+
+
+        <h1>Ética acadêmica</h1>
+        <p>Os alunos são encorajados a discutirem entre si e aprenderem uns com os outros, 
+        porém não é permitido compartilhar os trabalhos total ou parcialmente. 
+        Os alunos devem proteger o sigilo dos seus trabalhos, com atenção especial a códigos 
+        depositados em repositórios públicos (e.g. GitHub, PasteBin, etc).
+        Também não é permitido apresentar material copiado de fontes externas (incluindo código-fonte)
+        como se fosse trabalho original sem as devidas citações e referências.
+        <b>O plágio não será tolerado e trabalhos contendo cópia irregular terão nota zero</b>, 
+        independente de quem tenha sido o autor original.</p>
+      </div>
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
+
+    <div id="calendar" class="main_block">
+      <div id="calendar_header" class="block_header">
+        <a id="calendar_img" href="javascript:toggle_block('calendar','Agenda');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Agenda</a>
+      </div>
+
+      <div id="calendar_content" class="block_body" style="display: block;">
+        <iframe src="https://calendar.google.com/calendar/embed?height=480&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FRecife&amp;src=Y19jbGFzc3Jvb21kZWQyMmVjZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%23007b83&amp;title=IF775%20-%20Algoritmos%20para%20Streams%20de%20Dados&amp;mode=AGENDA&amp;showCalendars=0&amp;showTabs=1&amp;showPrint=0&amp;showDate=1&amp;showNav=1&amp;showTitle=0" style="border-width:0" width="100%" height="480" frameborder="0" scrolling="no"></iframe>
+      </div>
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
+
+    <div id="homework" class="main_block">
+      <div id="homework_header" class="block_header">
+        <a id="homework_img" href="javascript:toggle_block('homework','Trabalhos');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Trabalhos</a>
+      </div>
+
+      <div id="homework_content" class="block_body" style="display: block;">
+      <p><i>A definir</i></p>
+      </div>
+    </div>
+    <!-- block-end -->
+
+    <!-- block-begin -->
+
+    <div id="classroom" class="main_block">
+      <div id="news_header" class="block_header">
+        <a id="classroom_img" href="javascript:toggle_block('classroom', 'Classroom');">
+          <img class="block_icn" alt="Hide" src="images/icn_collapse.png">Classroom</a>
+      </div>
+
+      <div id="classroom_content" class="block_body" style="display: block;">
+
+        <a target="_blank" href="https://classroom.google.com/u/0/c/MzM3ODgyMjczMDI5"><img class=display src="images/bt_classroom.png" alt="Classroom"></a>
+
+      </div>
+      <!-- block-end -->
+    </div>
+
+  </div>
+
+  <!-- PAGE FOOTER -->
+
+  <div id="footer" class="footer">
+    <div class="footer_content">
+      © 2018 Paulo G.S. Fonseca
+      <hr size="1">
+
+      <table class="invisible" cellpadding="20">
+        <tr>
+          <td>
+            <a href="http://www.ufpe.br" target="_blank">
+              <img src="images/marca_ufpe_gray.png" alt="ufpe" height="60">
+            </a>
+          </td>
+
+          <td>
+            <a href="http://www.cin.ufpe.br" target="_blank">
+              <img src="images/marca_cin_gray.png" alt="cin.ufpe.br" height="36">
+            </a>
+          </td>
+        </tr>
+      </table>
+      <hr size="1"> ⚠ Sobrepõem-se às informações aqui contidas qualquer comunicado diferente emitido publicamente pelo professor responsável
+      em sala de aula ou através do grupo de discussão. Quaisquer dúvidas e/ou divergências deverão ser esclarecidas o mais
+      brevemente possível com o professor responsável.
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
